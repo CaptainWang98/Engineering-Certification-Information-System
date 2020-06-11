@@ -44,122 +44,133 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
-    }]
-  },
-
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
+      path: '/',
+      component: Layout,
+      redirect: '/home',
+      children: [{
+        path: 'home',
+        name: 'home',
+        component: () => import('@/views/home/index'),
+        meta: { title: '首页', icon: 'dashboard' }
+      }]
     },
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
+  {
+    path: '/major',
+    name: '专业管理',
+    component: Layout,
+    redirect: '/major/list',
+    meta: { roles: ['admin'], title: '专业管理', icon: 'example' },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'list',
+        name: '专业列表',
+        component: () => import('@/views/major/list'),
+        meta: { roles: ['admin'], title: '专业列表' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
+        path: 'reqs',
+        name: '毕业要求',
+        component: () => import('@/views/major/reqs'),
+        meta: { roles: ['admin'], title: '毕业要求管理' }
+      },
+      {
+        path: 'points',
+        name: '指标点管理',
+        component: () => import('@/views/major/points'),
+        meta: { roles: ['admin'], title: '指标点管理' }
+      },
+      {
+        path: 'students',
+        name: '学生管理',
+        component: () => import('@/views/major/students'),
+        meta: { roles: ['admin'], title: '学生管理' }
+      },
+    ]
+  },
+
+  {
+    path: '/subject',
+    component: Layout,
+    redirect: '/subject/list',
+    name: '课程管理',
+    meta: { roles: ['admin'], title: '课程管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '课程列表',
+        component: () => import('@/views/subject/list'),
+        meta: { roles: ['admin'], title: '课程列表' }
+      },
+      {
+        path: 'goal',
+        name: '课程目标管理',
+        component: () => import('@/views/subject/goal'),
+        meta: { roles: ['admin'], title: '课程目标管理' }
       }
     ]
   },
 
   {
-    path: 'external-link',
+    path: '/course',
     component: Layout,
+    redirect: '/course/list',
+    name: '开课管理',
+    meta: { roles: ['admin'], title: '开课管理', icon: 'table' },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
+        path: 'list',
+        name: '开课列表',
+        component: () => import('@/views/course/list'),
+        meta: { roles: ['admin'], title: '开课列表'}
+      },
+      {
+        path: 'teacher',
+        name: '教师管理',
+        component: () => import('@/views/course/teacher'),
+        meta: { roles: ['admin'], title: '教师管理'}
+      },
+      {
+        path: 'term',
+        name: '学期管理',
+        component: () => import('@/views/course/term'),
+        meta: { roles: ['admin'], title: '学期管理'}
+      },
+      {
+        hidden: true,
+        path: 'detail',
+        name: '开课详情',
+        component: () => import('@/views/course/detail'),
+        meta: { roles: ['admin'], title: '开课详情'}
+      },
     ]
   },
-
-  // 404 page must be placed at the end !!!
+  {
+    path: '/myCourse',
+    component: Layout,
+    redirect: '/myCourse/list',
+    name: '我的课程',
+    meta: { roles: ['teacher'], title: '我的课程', icon: 'table' },
+    children: [
+      {
+        path: 'list',
+        name: '列表',
+        component: () => import('@/views/myCourse/index'),
+        meta: { roles: ['teacher'], title: '我的课程'}
+      },
+      {
+        hidden: true,
+        path: 'detail',
+        name: '开课详情',
+        component: () => import('@/views/course/detail'),
+        meta: { roles: ['teacher'], title: '开课详情'}
+      },
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
