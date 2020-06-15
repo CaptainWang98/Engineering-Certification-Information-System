@@ -270,15 +270,17 @@ export default {
     getReqs(){
       getReqs({offset: this.offset, limit: this.limit}).then(response => {
         this.tableData = [];
-        let tableDataItem = {
-          id: '',
-          reqIndex: '',
-          major: {},
-          name: '',
-          note: '',
-          grade: {},
-        };
         response.data.result.content.forEach(item => {
+
+          let tableDataItem = {
+            id: '',
+            reqIndex: '',
+            major: {},
+            name: '',
+            note: '',
+            grade: {},
+          };
+
           tableDataItem.id = item.id;
           tableDataItem.reqIndex = item.reqindex;
           tableDataItem.major = item.major;
@@ -378,7 +380,14 @@ export default {
           this.count = response.data.result.totalElements;
           this.tableData = [];
           response.data.result.content.forEach(item => {
-            let tableDataItem = {};
+            let tableDataItem = {
+              id: '',
+              name: '',
+              reqindex: '',
+              note: '',
+              grade: {},
+              major: {}
+            };
             tableDataItem.id = item.id;
             tableDataItem.reqIndex = item.reqindex;
             tableDataItem.name = item.name;

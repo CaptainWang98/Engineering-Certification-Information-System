@@ -16,7 +16,7 @@ export function deleteEvaltoGoal(data) {
   })
 }
 
-export function getEvalToGoals(data) {
+export function getEvaltoGoals(data) {
   return request({
     url: '/EvalToGoals/getEvalToGoals',
     method: 'post',

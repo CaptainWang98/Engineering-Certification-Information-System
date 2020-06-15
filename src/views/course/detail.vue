@@ -448,7 +448,7 @@
 </template>
 
 <script>
-import { getEvalToGoals, addEvalToGoal, deleteEvalToGoal, updateEvalToGoal } from '@/api/E2G'
+import { getEvaltoGoals, addEvaltoGoal, deleteEvaltoGoal, updateEvaltoGoal } from '@/api/E2G'
 import { addScore, deleteScore, getScores, updateScore, searchScores} from '@/api/scores'
 import { getClassBarChart, getGoalScore } from '@/api/charts'
 import { searchScoreByStu } from '@/api/scores'
@@ -644,7 +644,7 @@ export default {
       this.subjectId = this.$route.query.subjectId;
       this.getEval();
       this.getViewPoint();
-      this.getEvalToGoals();
+      this.getEvaltoGoals();
       this.getScores();
       this.loadSubjectGoalOptions();
       this.loadStudentOptions();
@@ -679,8 +679,8 @@ export default {
       });
     },
 
-    getEvalToGoals(){
-      getEvalToGoals([this.courseId]).then(response => {
+    getEvaltoGoals(){
+      getEvaltoGoals([this.courseId]).then(response => {
         this.tableE2G = [];
         response.data.result.forEach(item => {
           let tableDataItem = {};
@@ -840,13 +840,13 @@ export default {
             subjectgoal: {id: this.newE2G.subjectGoal},
             percentage: this.newE2G.percentage,
           };
-          addEvalToGoal([params]).then(response => {
+          addEvaltoGoal([params]).then(response => {
             this.$message({
               type: 'success',
               message: '成功'
             });
             this.dialogAddE2GVisible = false;
-            this.getEvalToGoals();
+            this.getEvaltoGoals();
           });
         }else{
           this.$message({
@@ -874,13 +874,13 @@ export default {
       };
       this.$refs['editE2GForm'].validate((valid) => {
         if(valid){
-          updateEvalToGoal(params).then(() => {
+          updateEvaltoGoal(params).then(() => {
             this.$message({
               type: 'success',
               message: '更新成功'
             });
             this.dialogEditE2GVisible = false;
-            this.getEvalToGoals();
+            this.getEvaltoGoals();
           });
         }else{
           this.$message({
@@ -986,7 +986,7 @@ export default {
       });
     },
     handleDeleteE2G(index, row){
-      deleteEvalToGoal({id: row.id}).then(() => {
+      deleteEvaltoGoal({id: row.id}).then(() => {
         this.$message({
           type: 'success',
           message: '删除成功'
