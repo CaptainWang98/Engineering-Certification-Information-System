@@ -113,7 +113,7 @@
         <el-button type="primary" @click="updateSubject()">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="批量上传专业" :visible.sync="dialogUploadFormVisible" width="23%">
+    <el-dialog title="批量上传课程" :visible.sync="dialogUploadFormVisible" width="23%">
       <el-upload
         class="upload-demo"
         drag

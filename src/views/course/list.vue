@@ -414,6 +414,7 @@ export default {
         this.currentPage = 1;
         searchCourses({search: this.headForm.idText, offset: this.offset, limit: this.limit}).then(response => {
           this.tableData = [];
+          this.count = response.data.result.totalElements;
           response.data.result.content.forEach(item => {
             let tableDataItem = {};
             tableDataItem.id = item.id;
@@ -572,7 +573,7 @@ export default {
         message: '下载成功',
         }); 
         let blob = new Blob([response.data], {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
-          const fileName = row.id + '课程目标达成情况';
+        const fileName = row.id + '课程目标达成情况';
         let downloadElement = document.createElement("a");
         let href = window.URL.createObjectURL(blob); //创建下载的链接
         downloadElement.href = href;

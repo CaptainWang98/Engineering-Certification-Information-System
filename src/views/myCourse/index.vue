@@ -274,16 +274,16 @@ export default {
         name: [
           { required: true, message: '非空', trigger: 'blur' },
         ],
-        majorId: [
+        major: [
           { required: true, message: '非空', trigger: 'blur' },
         ],
-        subjectId: [
+        subject: [
           { required: true, message: '非空', trigger: 'blur' },
         ],
-        teacherId: [
+        teacher: [
           { required: true, message: '非空', trigger: 'blur' },
         ],
-        termId: [
+        term: [
           { required: true, message: '非空', trigger: 'blur' },
         ],
         start: [
@@ -308,10 +308,10 @@ export default {
       // getCourseCount().then(response => {
       //   this.count = response.data.result;
         this.getCourses();
-        // this.loadSubjectOptions();
-        // this.loadTeacherOptions();
-        // this.loadMajorOptions();
-        // this.loadTermOptions();
+        this.loadSubjectOptions();
+        this.loadTeacherOptions();
+        this.loadMajorOptions();
+        this.loadTermOptions();
       // });
     },
 
@@ -380,6 +380,7 @@ export default {
         response.data.result.content.forEach(item => {
           let tableDataItem = {};
           tableDataItem.id = item.id;
+          tableDataItem.major = item.major;
           tableDataItem.name = item.name;
           tableDataItem.teacher = item.teacher;
           tableDataItem.subject = item.subject;

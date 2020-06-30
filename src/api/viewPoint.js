@@ -24,7 +24,7 @@ export function getViewPoints(data) {
   })
 }
 
-export function updateViewPoint() {
+export function updateViewPoint(data) {
   return request({
     url: '/viewpoints/updateViewPionts',
     method: 'post',

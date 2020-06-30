@@ -32,6 +32,14 @@ export function getTeachers(data) {
   })
 }
 
+export function searchTeachers(data) {
+  return request({
+    url: '/course/searchTeachers',
+    method: 'post',
+    data
+  })
+}
+
 export function getTeacherCount() {
   return request({
     url: '/course/getTeacherCount',

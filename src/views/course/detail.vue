@@ -122,7 +122,7 @@
                     slot="suffix">
                   </i>
                   <template slot-scope="{ item }">
-                    <div class="name">{{ item.value }}</div>
+                    <div class="name">{{ item.goalIndex }}</div>
                     <span class="addr">{{ item.note }}</span>
                   </template>
                 </el-autocomplete>
@@ -160,7 +160,7 @@
                     slot="suffix">
                   </i>
                   <template slot-scope="{ item }">
-                    <div class="name">{{ item.value }}</div>
+                    <div class="name">{{ item.goalIndex }}</div>
                     <span class="addr">{{ item.note }}</span>
                   </template>
                 </el-autocomplete>
@@ -188,108 +188,6 @@
           </el-dialog>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="观测点">
-        <div class="table_container">
-          <el-table
-          :data="tableViewPoint"
-          style="width=100%"
-          border>
-            <el-table-column 
-            label="序号" 
-            type="index"></el-table-column>
-            <el-table-column
-            label="文本内容"
-            prop="note"></el-table-column>
-            <el-table-column
-            label="对应评价环节"
-            prop="e2g.e2gindex"></el-table-column>
-            <el-table-column
-            label="满分"
-            prop="score"></el-table-column>
-            <el-table-column
-            label="占比"
-            prop="percentage"></el-table-column>
-            <el-table-column
-            label="平均得分"
-            prop="averageScore"></el-table-column>
-            <el-table-column label="操作">
-              <template slot="header" slot-scope="scope">
-                <el-button type="success" size="mini" @click="handleAddViewPoint()">添加</el-button>
-              </template>
-              <template slot-scope="scope">
-                <el-button
-                size="mini"
-                type="primary"
-                @click="handleEditViewPoint(scope.row)">编辑</el-button>
-                <el-button
-                size="mini"
-                type="danger"
-                @click="handleDeleteViewPoint(scope.$index, scope.row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-dialog title="新增观测点" :visible.sync="dialogAddViewPointVisible">
-            <el-form :model="newViewPoint" ref="addViewPointForm" :rules="viewPointRules">
-              <el-form-item label="内容" label-width="100px" prop="note">
-                <el-input v-model="newViewPoint.note" auto-complete="off" type="textarea"></el-input>
-              </el-form-item>
-              <el-form-item label="分值" label-width="100px" prop="score">
-                <el-input type="number" v-model.number="newViewPoint.score" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="比例" label-width="100px" prop="percentage">
-                <el-input type="number" v-model.number="newViewPoint.percentage" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="平均得分" label-width="100px" prop="averageScore">
-                <el-input type="number" v-model.number="newViewPoint.averageScore" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="观测的对应关系序号" label-width="100px" prop="e2g">
-                <el-select v-model="newViewPoint.e2g" placeholder="请选择">
-                  <el-option
-                    v-for="item in tableE2G"
-                    :key="item.e2gindex"
-                    :label="item.e2gindex"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogAddViewPointVisible = false">取 消</el-button>
-              <el-button type="primary" @click="addViewPoint()">确 定</el-button>
-            </div>
-          </el-dialog>
-          <el-dialog title="修改观测点" :visible.sync="dialogEditViewPointVisible">
-            <el-form :model="selectViewPoint" ref="editViewPointForm" :rules="viewPointRules">
-              <el-form-item label="内容" label-width="100px" prop="note">
-                <el-input v-model="selectViewPoint.note" auto-complete="off" type="textarea"></el-input>
-              </el-form-item>
-              <el-form-item label="分值" label-width="100px" prop="score">
-                <el-input type="number" v-model.number="selectViewPoint.score" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="比例" label-width="100px" prop="percentage">
-                <el-input type="number" v-model.number="selectViewPoint.percentage" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="平均得分" label-width="100px" prop="averageScore">
-                <el-input type="number" v-model.number="selectViewPoint.averageScore" auto-complete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="观测的对应关系序号" label-width="100px" prop="e2g">
-                <el-select v-model="selectViewPoint.e2g" placeholder="请选择">
-                  <el-option
-                    v-for="item in tableE2G"
-                    :key="item.e2gindex"
-                    :label="item.e2gindex"
-                    :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogEditViewPointVisible = false">取 消</el-button>
-              <el-button type="primary" @click="updateViewPoint()">确 定</el-button>
-            </div>
-          </el-dialog>
-        </div>
-      </el-tab-pane>
       <el-tab-pane label="成绩管理">
         <el-form 
         :model="headForm" 
@@ -306,6 +204,9 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" plain @click="dialogUploadFormVisible=true;">批量导入<i class="el-icon-upload el-icon--right"></i></el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="warning" @click="deleteScoresByClass">删除全部成绩（重新导入使用）</el-button>
           </el-form-item>
         </el-form>
         <div class="table_container">
@@ -353,7 +254,7 @@
               multiple>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div class="el-upload__tip" slot="tip">请上传格式化的Excel文件，点此下载<el-link type="primary">模板</el-link></div>
+              <div class="el-upload__tip" slot="tip">请上传格式化的Excel文件，<a :href="downloadUrl" target="_blank">点此下载模板</a></div>
             </el-upload>
           </el-dialog>
           <el-dialog title="新增成绩" :visible.sync="dialogAddScoreVisible">
@@ -418,6 +319,129 @@
             </div>
           </el-dialog>
         </div>
+      </el-tab-pane>      
+      <el-tab-pane label="观测点">
+        <div class="table_container">
+          <el-table
+          :data="tableViewPoint"
+          style="width=100%"
+          border>
+            <el-table-column 
+            label="序号" 
+            type="index"></el-table-column>
+            <el-table-column
+            label="文本内容"
+            prop="note"></el-table-column>
+            <el-table-column
+            label="对应评价环节"
+            prop="e2g.e2gindex"></el-table-column>
+            <el-table-column
+            label="满分"
+            prop="score"></el-table-column>
+            <el-table-column
+            label="占比"
+            prop="percentage"></el-table-column>
+            <el-table-column
+            label="平均得分"
+            prop="averageScore"></el-table-column>
+            <el-table-column
+            label="平均得分来源"
+            prop="origin"></el-table-column>
+            <el-table-column label="操作">
+              <template slot="header" slot-scope="scope">
+                <el-button type="success" size="mini" @click="handleAddViewPoint()">添加</el-button>
+              </template>
+              <template slot-scope="scope">
+                <el-button
+                size="mini"
+                type="primary"
+                @click="handleEditViewPoint(scope.row)">编辑</el-button>
+                <el-button
+                size="mini"
+                type="danger"
+                @click="handleDeleteViewPoint(scope.$index, scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-dialog title="新增观测点" :visible.sync="dialogAddViewPointVisible">
+            <el-form :model="newViewPoint" ref="addViewPointForm" :rules="viewPointRules">
+              <el-form-item label="内容" label-width="100px" prop="note">
+                <el-input v-model="newViewPoint.note" auto-complete="off" type="textarea"></el-input>
+              </el-form-item>
+              <el-form-item label="分值" label-width="100px" prop="score">
+                <el-input type="number" v-model.number="newViewPoint.score" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="比例" label-width="100px" prop="percentage">
+                <el-input type="number" v-model.number="newViewPoint.percentage" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="平均得分及来源" label-width="100px" prop="averageScore">
+                <el-select v-model="newViewPoint.averageScore" placeholder="" value-key="name">
+                  <el-option 
+                  v-for="item in averageScoreOptions" 
+                  :key="item.name"
+                  :label="item.name + item.aveScore"
+                  :value="item">
+                  <span style="float: left">{{ item.name }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.aveScore }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="观测的对应关系序号" label-width="100px" prop="e2g">
+                <el-select v-model="newViewPoint.e2g" placeholder="请选择">
+                  <el-option
+                    v-for="item in tableE2G"
+                    :key="item.e2gindex"
+                    :label="item.e2gindex"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogAddViewPointVisible = false">取 消</el-button>
+              <el-button type="primary" @click="addViewPoint()">确 定</el-button>
+            </div>
+          </el-dialog>
+          <el-dialog title="修改观测点" :visible.sync="dialogEditViewPointVisible">
+            <el-form :model="selectViewPoint" ref="editViewPointForm" :rules="viewPointRules">
+              <el-form-item label="内容" label-width="100px" prop="note">
+                <el-input v-model="selectViewPoint.note" auto-complete="off" type="textarea"></el-input>
+              </el-form-item>
+              <el-form-item label="分值" label-width="100px" prop="score">
+                <el-input type="number" v-model.number="selectViewPoint.score" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="比例" label-width="100px" prop="percentage">
+                <el-input type="number" v-model.number="selectViewPoint.percentage" auto-complete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="平均得分及来源" label-width="100px" prop="averageScore">
+                <el-select v-model="selectViewPoint.averageScore" placeholder="" value-key="name">
+                  <el-option 
+                  v-for="item in averageScoreOptions" 
+                  :key="item.name"
+                  :label="item.name + item.aveScore"
+                  :value="item">
+                  <span style="float: left">{{ item.name }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.aveScore }}</span>
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="观测的对应关系序号" label-width="100px" prop="e2g">
+                <el-select v-model="selectViewPoint.e2g" placeholder="请选择">
+                  <el-option
+                    v-for="item in tableE2G"
+                    :key="item.e2gindex"
+                    :label="item.e2gindex"
+                    :value="item.id">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogEditViewPointVisible = false">取 消</el-button>
+              <el-button type="primary" @click="updateViewPoint()">确 定</el-button>
+            </div>
+          </el-dialog>
+        </div>
       </el-tab-pane>
       <el-tab-pane label="课程考核结果统计图">
         <div class="table_container">
@@ -438,6 +462,9 @@
               :label="item.goalIndex"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="collectGoalScore()">采集</el-button>
+          </el-form-item>
         </el-form>
         <div class="table_container">
           <div id="scatterChart" :style="{width:'800px',height:'800px'}"></div>
@@ -450,8 +477,8 @@
 <script>
 import { getEvaltoGoals, addEvaltoGoal, deleteEvaltoGoal, updateEvaltoGoal } from '@/api/E2G'
 import { addScore, deleteScore, getScores, updateScore, searchScores} from '@/api/scores'
-import { getClassBarChart, getGoalScore } from '@/api/charts'
-import { searchScoreByStu } from '@/api/scores'
+import { getClassBarChart, getGoalScore, collectGoalScore } from '@/api/charts'
+import { searchScoreByStu, deleteScoresByClass, getAveScore } from '@/api/scores'
 import { searchGoals } from '@/api/goals'
 import { addEval, deleteEval, getEval, updateEval } from '@/api/eval'
 import { addViewPoint, deleteViewPoint, getViewPoints, updateViewPoint } from '@/api/viewPoint'
@@ -469,6 +496,8 @@ export default {
       tableE2G: [],
       tableViewPoint: [],
       tableGrade: [],
+
+      averageScoreOptions: [],
       evaltoGoalOptions: [],
       subjectGoalOptions: [],
       studentOptions: [],
@@ -487,6 +516,11 @@ export default {
         "指导老师",
         "课堂测验",
         "总评成绩",
+        "大作业成绩",
+        "实验报告成绩",
+        "实验验收成绩",
+        "文献综述成绩",
+        "单元测试成绩",
       ],
 
       selectEval: {
@@ -507,7 +541,7 @@ export default {
         note: '',
         score: Number(0),
         percentage: Number(0),
-        averageScore: Number(0),
+        averageScore: undefined,
         aclass: '',
         e2g: '',
       },
@@ -533,7 +567,7 @@ export default {
         note: '',
         score: Number(0),
         percentage: Number(0),
-        averageScore: Number(0),
+        averageScore: undefined,
         e2g: '',
       },
       newScore: {
@@ -599,7 +633,7 @@ export default {
         averageScore: [
           { required: true, message: '非空', trigger: 'blur' },
           // { type: 'number', message: '输入数字型', trigger: 'blur'},
-          { type: "number", min: 0, max: 100, message: '分值为0~100', trigger: 'blur' },
+          // { type: "number", min: 0, max: 100, message: '分值为0~100', trigger: 'blur' },
         ],
         percentage: [
           { required: true, message: '非空', trigger: 'blur' },
@@ -625,6 +659,7 @@ export default {
       },
 
       uploadUrl: process.env.VUE_APP_BASE_API + '/scores/uploadScores',
+      downloadUrl: process.env.VUE_APP_BASE_API + '/scores/downloadScoreExcel',
 
       /**
        * 分页相关
@@ -649,6 +684,7 @@ export default {
       this.loadSubjectGoalOptions();
       this.loadStudentOptions();
       this.loadBarData();
+      this.loadAverageScoreOptions();
     },
 
     getInfo(){
@@ -706,6 +742,7 @@ export default {
           tableDataItem.aclass = item.aclass;
           tableDataItem.e2g = item.e2g;
           tableDataItem.averageScore = item.averageScore;
+          tableDataItem.origin = item.origin;
           this.tableViewPoint.push(tableDataItem);
         });
       });
@@ -749,6 +786,16 @@ export default {
         return (subjectGoal.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
       };
     },
+
+    loadAverageScoreOptions(){
+      getAveScore({classId: this.courseId }).then(response => {
+        this.averageScoreOptions = [];
+        console.log(response);
+        
+        this.averageScoreOptions = response.data.result;
+      });
+    },
+
 
     // 按钮
     handleUpdateClassInfo(){
@@ -903,7 +950,8 @@ export default {
     addViewPoint(){
       let params = {
         aclass: this.newViewPoint.aclass,
-        averageScore: this.newViewPoint.averageScore,
+        averageScore: this.newViewPoint.averageScore.aveScore,
+        origin: this.newViewPoint.averageScore.name,
         e2g: {id: this.newViewPoint.e2g},
         note: this.newViewPoint.note,
         percentage: this.newViewPoint.percentage,
@@ -945,7 +993,8 @@ export default {
         aclass: this.selectViewPoint.aclass,
         score: this.selectViewPoint.score,
         percentage: this.selectViewPoint.percentage,
-        averageScore: this.selectViewPoint.averageScore,
+        averageScore: this.selectViewPoint.averageScore.aveScore,
+        origin: this.selectViewPoint.averageScore.name,
         e2g: {id: this.selectViewPoint.e2g},
       };
       this.$refs['editViewPointForm'].validate((valid) => {
@@ -1085,11 +1134,24 @@ export default {
       getSelStudents({aclass: this.courseId}).then(response => {
         this.studentOptions = [];
         response.data.result.forEach(item => {
-          let optionItem = {};
-          optionItem.id = item.id;
-          optionItem.name = item.name;
-          this.studentOptions.push(optionItem);
+          if(item){
+            let optionItem = {};
+            optionItem.id = item.id;
+            optionItem.name = item.name;
+            this.studentOptions.push(optionItem);
+          }
         });
+      });
+    },
+
+    deleteScoresByClass(){
+      deleteScoresByClass({id: this.courseId}).then(response => {
+        this.$message({
+          type: 'success',
+          message: '删除成功'
+        });
+        this.getScores();
+        this.loadAverageScoreOptions();
       });
     },
 
@@ -1109,7 +1171,9 @@ export default {
       　　　　}
         　　}
           },
-          xAxis: {},
+          xAxis: {
+            
+          },
           yAxis: {
             min: 0,
             max: 100,
@@ -1123,7 +1187,16 @@ export default {
       });
     },
 
-    async loadBarData(){
+    collectGoalScore(){
+      collectGoalScore({classId: this.courseId}).then(response => {
+        this.$message({
+          type: 'success',
+          message: '采集成功'
+        });
+      })
+    },
+
+    loadBarData(){
       getClassBarChart({id: this.courseId}).then(response => {
         let barChart = this.$echarts.init(document.getElementById('barChart'));
         barChart.setOption({
@@ -1143,12 +1216,60 @@ export default {
           dataset: {
               source: response.data.result,
           },
-          xAxis: {type: 'category'},
+          xAxis: {
+            type: 'category',
+            axisLabel: {
+              interval: 0,
+              rotate: -20
+            }
+          },
           yAxis: {},
           series: [
-              {type: 'bar'},
-              {type: 'bar'},
-              {type: 'bar'},
+              {
+                type: 'bar',
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true, //开启显示
+                      position: 'top', //在上方显示
+                      textStyle: { //数值样式
+                        color: 'black',
+                        fontSize: 16
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                type: 'bar',
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true, //开启显示
+                      position: 'top', //在上方显示
+                      textStyle: { //数值样式
+                        color: 'black',
+                        fontSize: 16
+                      }
+                    }
+                  }
+                }  
+              },
+              {
+                type: 'bar',
+                itemStyle: {
+                  normal: {
+                    label: {
+                      show: true, //开启显示
+                      position: 'top', //在上方显示
+                      textStyle: { //数值样式
+                        color: 'black',
+                        fontSize: 16
+                      }
+                    }
+                  }
+                }
+              },
           ]
         });
       });

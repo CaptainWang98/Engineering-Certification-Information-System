@@ -147,6 +147,12 @@ export const asyncRoutes = [
         component: () => import('@/views/course/detail'),
         meta: { roles: ['admin'], title: '开课详情'}
       },
+      {
+        path: 'goalScoreList',
+        name: '按课号查达成度',
+        component: () => import('@/views/course/goalScoreList'),
+        meta: { roles: ['admin'], title: '按课号查达成度'}
+      },
     ]
   },
   {

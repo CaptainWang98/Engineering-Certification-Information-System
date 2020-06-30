@@ -15,3 +15,11 @@ export function getClassBarChart(data) {
     data
   })
 }
+
+export function collectGoalScore(data) {
+  return request({
+    url: '/scores/collectGoalScore',
+    method: 'get',
+    params: data
+  })
+}

@@ -24,7 +24,7 @@ export function getEval(data) {
   })
 }
 
-export function updateEval() {
+export function updateEval(data) {
   return request({
     url: '/evals/updateEval',
     method: 'post',

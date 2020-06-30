@@ -158,7 +158,7 @@ export default {
       rules: {
         id: [
           { required: true, message: '非空', trigger: 'blur' },
-          { min: 6, max: 7, message: '长度在 6 到 7 个字符', trigger: 'change' }
+          // { min: 6, max: 7, message: '长度在 6 到 7 个字符', trigger: 'change' }
         ],
         name: [
           { required: true, message: '非空', trigger: 'blur' },

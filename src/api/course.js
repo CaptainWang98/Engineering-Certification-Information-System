@@ -47,7 +47,7 @@ export function getCourseCount() {
   })
 }
 
-export function downloadReport() {
+export function downloadReport(data) {
   return request({
     url: '/report/classReport',
     method: 'post',

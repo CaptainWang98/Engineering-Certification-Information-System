@@ -5,7 +5,7 @@
     :inline="true"
     class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="headForm.idText" placeholder="请输入专业代码或专业名"></el-input>
+        <el-input v-model="headForm.idText" placeholder="请输入"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="handleSearch()">搜索</el-button>
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { getTeacherCount, addTeacher, deleteTeacher, getTeachers, updateTeacher } from '@/api/teacher'
+import { getTeacherCount, addTeacher, deleteTeacher, getTeachers, updateTeacher, searchTeachers } from '@/api/teacher'
 
 export default {
   data() {
@@ -239,9 +239,15 @@ export default {
 
     // 分页相关
     handleCurrentChange(val){
-      this.currentPage = val;
-      this.offset = (val - 1) * this.limit;
-      this.getMajor();
+      if(this.headForm.idText){
+        this.currentPage = val;
+        this.offset = (val - 1);
+        this.handleSearch();
+      } else {
+        this.currentPage = val;
+        this.offset = (val - 1);
+        this.getTeachers();
+      }
     },
     handleSizeChange(val){
       console.log(`每页 ${val} 条`);
@@ -298,6 +304,24 @@ export default {
           this.tableData.push(tableDataItem);
         });
       });
+    },
+    async handleSearch(){
+      if(this.headForm.idText){
+        this.currentPage = 1;
+        searchTeachers({search: this.headForm.idText, offset: this.offset, limit: this.limit}).then(response => {
+          this.tableData = [];
+          this.count = response.data.result.totalElements;
+          response.data.result.content.forEach(item => {
+            let tableDataItem = {};
+            tableDataItem.id = item.id;
+            tableDataItem.name = item.name;
+            tableDataItem.job = item.job;
+            tableDataItem.born = item.born;
+            tableDataItem.school = item.school;
+            this.tableData.push(tableDataItem);
+          });
+        });
+      }
     },
   },
 }
