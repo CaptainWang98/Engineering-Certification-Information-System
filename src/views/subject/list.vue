@@ -157,7 +157,7 @@ export default {
       rules: {
         id: [
           { required: true, message: '非空', trigger: 'blur' },
-          { min:6, max:6,  message: '课程代码至少6位', trigger: 'blur' },
+          // { min:6, max:6,  message: '课程代码至少6位', trigger: 'blur' },
         ],
         name: [
           { required: true, message: '非空', trigger: 'blur' },
